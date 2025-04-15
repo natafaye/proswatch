@@ -1,0 +1,1 @@
+Handle overflowing 30 by removing empty or swapping full

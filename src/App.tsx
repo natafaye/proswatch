@@ -6,11 +6,11 @@ export default function App() {
   return (
     <ColorDndContext>
       <div className="flex gap-5 p-5">
-        <PaletteList className="flex-grow"/>
-        <div className="basis-16">
+        <div className="basis-12">
           <h3 className="text-xl mb-2">Add Colors</h3>
           <BulkAddTextbox />
         </div>
+        <PaletteList className="flex-grow" />
       </div>
     </ColorDndContext>
   )

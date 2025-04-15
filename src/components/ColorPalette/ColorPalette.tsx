@@ -7,9 +7,10 @@ import { useAppDispatch } from "../../redux/store"
 
 type Props = {
     palette: Palette
+    className?: string
 }
 
-export default function ColorPalette({ palette }: Props) {
+export default function ColorPalette({ palette, className }: Props) {
     const dispatch = useAppDispatch()
 
     const handleNameChange = (updatedName: string) => {
@@ -17,17 +18,19 @@ export default function ColorPalette({ palette }: Props) {
     }
 
     return (
-        <div>
-            <h3 className="text-xl mb-2">
-                <EditableText value={palette.name} onChange={handleNameChange} />
-            </h3>
-            <button className="bg-neutral-900 p-2 rounded hover:bg-neutral-800">
-                Export
-            </button>
+        <div className={className}>
+            <div className="flex justify-between items-center mb-2">
+                <h3 className="text-xl mb-2">
+                    <EditableText value={palette.name} onChange={handleNameChange} />
+                </h3>
+                <button className="bg-neutral-900 p-2 rounded hover:bg-neutral-800">
+                    ⬇️ Download
+                </button>
+            </div>
             <SortableContext items={palette.colorList.map(color => color.id)}>
                 <div className="grid grid-cols-10 gap-[0.1rem]">
                     {palette.colorList.map(color => (
-                        <SortableColorSquare key={color.id} color={color} paletteId={palette.id} />
+                        <SortableColorSquare key={color.id} color={color} />
                     ))}
                 </div>
             </SortableContext>

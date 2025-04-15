@@ -15,7 +15,7 @@ export default function SortableColorSquare({ color }: Props) {
         <ColorSquare
             squareColor={color}
             ref={setNodeRef}
-            className={clsx(isOver && "border-white border-2 opacity-0")}
+            className={clsx(isOver && "opacity-0")}
             {...attributes}
             {...listeners}
         />
