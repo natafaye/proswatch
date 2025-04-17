@@ -43,6 +43,26 @@ const colorSlice = createSlice({
 
         oldColorList.splice(oldIndex, 1)
         newColorList.splice(newIndex, 0, color)
+
+        // Rebalance each palette to 30
+        
+        if(oldColorList !== newColorList && newColorList.length > 30) {
+          let swappedColor: Color | undefined
+          if(newColorList[newIndex - 1]?.color === "") {
+            [swappedColor] = newColorList.splice(newIndex - 1, 1)
+          } else if(newColorList[newIndex + 1]?.color === "") {
+            [swappedColor] = newColorList.splice(newIndex + 1, 1)
+          } else if(newColorList.some(c => c.color === "")) {
+            const emptyIndex = newColorList.findIndex(c => c.color === "");
+            [swappedColor] = newColorList.splice(emptyIndex, 1)
+          } else if(newIndex !== 29) {
+            swappedColor = newColorList.pop()!
+          } else {
+            [swappedColor] = newColorList.splice(28, 1)
+          }
+          console.log(oldIndex, newIndex, swappedColor)
+          oldColorList.splice(oldIndex, 0, swappedColor)
+        }
     },
   },
 });

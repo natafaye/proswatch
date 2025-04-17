@@ -16,6 +16,7 @@ export default function SortableColorSquare({ color }: Props) {
             squareColor={color}
             ref={setNodeRef}
             className={clsx(isOver && "opacity-0")}
+            style={{ cursor: "pointer" }}
             {...attributes}
             {...listeners}
         />
