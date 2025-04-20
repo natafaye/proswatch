@@ -4,7 +4,7 @@ import SortableColorSquare from "../ColorSqaure/SortableColorSquare"
 import EditableText from "./EditableText"
 import { updatePalette } from "../../redux/colorSlice"
 import { useAppDispatch } from "../../redux/store"
-import { downloadSwatchFile } from "./downloadSwatchFile"
+import { downloadSwatchFile } from "../../downloadSwatchFile"
 
 type Props = {
     palette: Palette

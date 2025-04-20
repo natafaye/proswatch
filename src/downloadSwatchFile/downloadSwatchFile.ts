@@ -1,4 +1,4 @@
-import type { Palette } from "../../shared/types";
+import type { Palette } from "../shared/types";
 import { createSwatchesFile } from "procreate-swatches"
 import { convertHexToRgbArray } from "./convertHexToRgbArray";
 
@@ -8,7 +8,7 @@ export const downloadSwatchFile = async (palette: Palette) => {
         palette.name, 
         palette.colorList.map(c => c.color ? [convertHexToRgbArray(c.color), "rgb"] : null)
     )
-    const blob = new Blob([swatchesBuffer], { type: "swatches" })
+    const blob = new Blob([swatchesBuffer], { type: "application/octet-stream" })
 
     // Download it
     const url = window.URL.createObjectURL(blob)
