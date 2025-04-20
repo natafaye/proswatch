@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ColorInput from "./ColorInput"
 import { parseHexCode } from "./parseHexCode"
 import { useAppDispatch } from "../../redux/store"
@@ -13,6 +13,16 @@ export default function BulkAddTextbox() {
   const colors = useSelector(selectBulkAddColors)
 
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    // If a color is dragged out of the bulk add color list
+    setStringValues(stringValues.map((string, index) =>
+      // Map each string to itself, unless the string doesn't match the color
+      parseHexCode(string) !== colors[index]?.color
+        ? colors[index]?.color.replace("#", "") || ""
+        : string
+    ))
+  }, [colors])
 
   const handleColorUpdate = (index: number, newValue: string) => {
     let colorToAdd = []
@@ -36,7 +46,7 @@ export default function BulkAddTextbox() {
   }
 
   const goToNextLine = (index: number) => {
-    if(index < inputRefs.current.length - 1) {
+    if (index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1].focus()
     }
   }

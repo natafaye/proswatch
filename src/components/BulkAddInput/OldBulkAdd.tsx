@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useRef, useState } from "react";
 import TextareaAutosize, { TextareaHeightChangeMeta } from "react-textarea-autosize";
-import { parseHexCodeList } from "./parseHexCodeList";
+import { parseHexCodeList } from "./oldparseHexCodeList";
 
 type Props = {
     values?: string[]

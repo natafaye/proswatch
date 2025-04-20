@@ -32,8 +32,11 @@ const colorSlice = createSlice({
     },
     moveColor: (state, action: PayloadAction<{dragColorId: string, dropPaletteId: string, dropIndex: number}>) => {
         // Old palette and index
-        const oldColorList = state.paletteList.find(p => p.colorList.find(c => c.id === action.payload.dragColorId))?.colorList
-        if(!oldColorList) return // TODO: handle bulk add color move
+        let oldColorList = state.paletteList.find(p => p.colorList.find(c => c.id === action.payload.dragColorId))?.colorList
+        if(!oldColorList) {
+          // move it from the bulk add
+          oldColorList = state.bulkAddColorList
+        }
         const color = oldColorList.find(c => c.id === action.payload.dragColorId)!
         const oldIndex = oldColorList.indexOf(color)
 

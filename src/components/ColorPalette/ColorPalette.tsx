@@ -4,6 +4,7 @@ import SortableColorSquare from "../ColorSqaure/SortableColorSquare"
 import EditableText from "./EditableText"
 import { updatePalette } from "../../redux/colorSlice"
 import { useAppDispatch } from "../../redux/store"
+import { downloadSwatchFile } from "./downloadSwatchFile"
 
 type Props = {
     palette: Palette
@@ -17,13 +18,17 @@ export default function ColorPalette({ palette, className }: Props) {
         dispatch(updatePalette({ ...palette, name: updatedName }))
     }
 
+    const download = () => {
+        downloadSwatchFile(palette)
+    }
+
     return (
         <div className={className}>
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-xl mt-1">
                     <EditableText value={palette.name} onChange={handleNameChange} />
                 </h3>
-                <button className="bg-neutral-900 p-2 rounded hover:bg-neutral-800">
+                <button className="bg-neutral-900 p-2 rounded hover:bg-neutral-800" onClick={download}>
                     ⬇️ Download
                 </button>
             </div>
