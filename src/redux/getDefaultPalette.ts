@@ -6,11 +6,11 @@ export const getDefaultPalette = (): Palette => ({
   name: "Untitled",
   colorList: Array.from({ length: 30 }, () => ({
     id: uuid(),
-    color: getRandomColor(),
+    color: "",
   }))
 });
 
-const getRandomColor = () => {
-  const color = `${Math.floor(Math.random() * 16777215).toString(16)}`;
-  return "#" + color.padStart(6, "0");
-};
+// const getRandomColor = () => {
+//   const color = `${Math.floor(Math.random() * 16777215).toString(16)}`;
+//   return "#" + color.padStart(6, "0");
+// };

@@ -42,7 +42,7 @@ const colorSlice = createSlice({
 
         // New palette and index
         const newColorList = state.paletteList.find(p => p.id === action.payload.dropPaletteId)?.colorList
-        if(!newColorList) return // TODO: handle bulk add color move
+        if(!newColorList) return
         const newIndex = action.payload.dropIndex
 
         oldColorList.splice(oldIndex, 1)
