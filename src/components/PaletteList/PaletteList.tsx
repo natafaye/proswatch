@@ -20,12 +20,15 @@ export default function PaletteList({ className }: Props) {
                     className="basis-[30rem]"
                 />
             ))}
-                <button
-                    className="bg-neutral-900 p-3 pt-1 hover:bg-neutral-800 mt-2 text-xl font-bold rounded w-full min-h-42 basis-[30rem]"
-                    onClick={() => dispatch(addPalette())}
-                >
-                    &#43;
-                </button>
+            <button
+                className={clsx(
+                    "bg-neutral-900 hover:bg-neutral-800rounded text-xl font-bold",
+                    "w-full min-h-42 basis-[30rem] p-3 pt-1 mt-2"
+                )}
+                onClick={() => dispatch(addPalette())}
+            >
+                &#43;
+            </button>
         </div>
     )
 }

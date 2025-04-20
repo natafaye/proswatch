@@ -1,54 +1,58 @@
-import { ChangeEvent, Fragment, useRef, useState } from "react";
-import TextareaAutosize, { TextareaHeightChangeMeta } from "react-textarea-autosize";
-import { parseHexCodeList } from "./parseHexCodeList";
+import { useRef, useState } from "react"
+import ColorInput from "./ColorInput"
+import { parseHexCode } from "./parseHexCode"
+import { useAppDispatch } from "../../redux/store"
+import { selectBulkAddColors, setBulkAddColors } from "../../redux/colorSlice"
+import { useSelector } from "react-redux"
+import { v4 as uuid } from "uuid"
 
-type Props = {
-    values?: string[]
-    onChange?: (newValue: string[]) => void
-}
+export default function BulkAddTextbox() {
+  const [stringValues, setStringValues] = useState<string[]>([""])
+  const inputRefs = useRef<HTMLInputElement[]>([])
 
-export default function BulkAddTextbox({ values = [], onChange = () => {} }: Props) {
-    const [stringValue, setStringValue] = useState(values.join("\n"))
-    const [rows, setRows] = useState(2)
+  const colors = useSelector(selectBulkAddColors)
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const dispatch = useAppDispatch()
 
-    const handleHeightChange = (height: number, { rowHeight }: TextareaHeightChangeMeta) => {
-        setRows(height / rowHeight + 1)
+  const handleColorUpdate = (index: number, newValue: string) => {
+    let colorToAdd = []
+    if (index === stringValues.length - 1 && newValue !== "") {
+      colorToAdd.push({
+        id: uuid(),
+        color: ""
+      })
     }
-
-    const handleStringValueChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setStringValue(event.target.value)
-        onChange(parseHexCodeList(event.target.value))
-    }
-
-    return (
-        <div className="flex w-full bg-neutral-900 pb-2" onClick={() => textareaRef.current?.focus()}>
-            <div className="mt-[0.4rem] ms-2 flex flex-col gap-1">
-                <div className="w-6"></div>
-                {values.concat([""]).map((hexCode, index) =>
-                    <div
-                        key={index}
-                        className="w-5 h-5"
-                        style={{ backgroundColor: hexCode ? `#${hexCode}` : "#000" }}
-                    ></div>
-                )}
-            </div>
-            <div className="mt-2 ps-1">
-                {Array.from({ length: rows }).map((_, index) =>
-                    <Fragment key={index}>#<br /></Fragment>
-                )}
-            </div>
-            <TextareaAutosize
-                ref={textareaRef}
-                className="flex-grow outline-0 p-2 ps-0 placeholder:text-neutral-700"
-                minRows={1}
-                onHeightChange={handleHeightChange}
-                style={{ resize: "none" }}
-                placeholder="000000"
-                value={stringValue}
-                onChange={handleStringValueChange}
-            />
-        </div>
+    setStringValues(stringValues
+      .map((value, i) => i === index ? newValue : value)
+      .concat(colorToAdd.length ? [""] : [])
     )
+    dispatch(setBulkAddColors(colors
+      .map((color, i) => i !== index ? color : ({
+        ...color,
+        color: parseHexCode(newValue)
+      }))
+      .concat(colorToAdd))
+    )
+  }
+
+  const goToNextLine = (index: number) => {
+    if(index < inputRefs.current.length - 1) {
+      inputRefs.current[index + 1].focus()
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-1">
+      {stringValues.map((value, index) => (
+        <ColorInput
+          inputRef={(node) => { node && (inputRefs.current[index] = node) }}
+          key={index}
+          value={value}
+          color={colors[index]}
+          onChange={(newValue) => handleColorUpdate(index, newValue)}
+          onColorFinish={() => goToNextLine(index)}
+        />
+      ))}
+    </div>
+  )
 }

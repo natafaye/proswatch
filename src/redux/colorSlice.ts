@@ -2,10 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getDefaultPalette } from "./getDefaultPalette";
 import type { AppState } from "./store";
 import { Color, Palette } from "../shared/types";
+import { v4 as uuid } from "uuid";
 
 const initialState = {
   paletteList: [getDefaultPalette()],
-  bulkAddColorList: [] as Color[],
+  bulkAddColorList: [{ id: uuid(), color: "" }],
 };
 
 const colorSlice = createSlice({

@@ -20,7 +20,7 @@ export default function ColorPalette({ palette, className }: Props) {
     return (
         <div className={className}>
             <div className="flex justify-between items-center mb-2">
-                <h3 className="text-xl mb-2">
+                <h3 className="text-xl mt-1">
                     <EditableText value={palette.name} onChange={handleNameChange} />
                 </h3>
                 <button className="bg-neutral-900 p-2 rounded hover:bg-neutral-800">
@@ -28,7 +28,7 @@ export default function ColorPalette({ palette, className }: Props) {
                 </button>
             </div>
             <SortableContext items={palette.colorList.map(color => color.id)}>
-                <div className="grid grid-cols-10 gap-[0.1rem]">
+                <div className="grid grid-cols-10 gap-[1px]">
                     {palette.colorList.map(color => (
                         <SortableColorSquare key={color.id} color={color} />
                     ))}
